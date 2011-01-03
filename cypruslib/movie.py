@@ -14,6 +14,7 @@
 # along with Cyprus.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
 import config
 import shutil
 import urllib
@@ -32,22 +33,42 @@ class Movie:
 		self.fullpath = fullpath
 		(self.path, self.filename) = os.path.split(fullpath)
 		self.splitname = self.filename.split('.')
+		self.query = self.splitname[0]
 		self.config = config.Config()
 		self.imdb = imdb.IMDb()
 		self.result = None
+		self.search_results = None
 		self.title = None
 	
 	def lookup(self):
 		try:
-			search_results = self.imdb.search_movie(self.splitname[0])
+			self.search_results = self.imdb.search_movie(self.query)
 		except imdb.IMDbError, e:
 			print "Probably no connection to the internet. Full error follows:"
 			print e
 			sys.exit(3)
-			
-		self.result = search_results[0]
+		
+		if self.search_results == []:
+			print "No results. Possible network issue. Please try later"
+			sys.exit(3)
+		self.result = self.search_results[0]
 		self.imdb.update(self.result)
 		self.title = self.result['long imdb canonical title']
+	
+	def get_searchterm(self):
+		return self.splitname[0]
+	
+	def get_other_results(self, values):
+		for i in range(values):
+			print (i + 1), self.search_results[i]
+
+	def select_other_result(self, value):
+		self.result = self.search_results[value - 1]
+		self.imdb.update(self.result)
+		self.title = self.result['long imdb canonical title']
+	
+	def set_query(self, newquery):
+		self.query = newquery
 
 	def move_to_library(self):
 		path = self.config.get_librarydir() + '/' + self.title
@@ -64,4 +85,4 @@ class Movie:
 		print self.config.get_librarydir()
 
 	def summarize(self):
-		print self.result.summary()
+		return self.result.summary()
