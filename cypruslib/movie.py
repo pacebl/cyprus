@@ -16,8 +16,9 @@
 import os
 import sys
 import config
-import shutil
 import urllib
+import copy
+
 try:
 	import imdb
 except:
@@ -75,7 +76,10 @@ class Movie:
 		if not os.path.exists(path):
 			os.makedirs(path)
 		filename = path + '/' + self.title + '.' + self.splitname[-1]
-		shutil.copy(self.fullpath, filename) 
+
+		copier = copy.CopyProgress(self.fullpath, filename, mode='fixed')
+		copier.copy()
+
 		coverurl = self.result['full-size cover url']
 		urllib.urlretrieve(coverurl, path + '/' + self.title + '.tbn')
 	

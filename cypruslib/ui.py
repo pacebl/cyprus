@@ -16,6 +16,7 @@
 import sys
 import movie
 import config
+import copy
 import os
 
 # Number of other results to give if the first found movie is incorrect
