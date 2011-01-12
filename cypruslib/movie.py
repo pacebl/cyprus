@@ -60,8 +60,12 @@ class Movie:
 		return self.splitname[0]
 	
 	def get_other_results(self, values):
-		for i in range(values):
-			print (i + 1), self.search_results[i]
+		if len(self.search_results) >= values:
+			for i in range(values):
+				print (i + 1), self.search_results[i]
+		else:
+			for i in range(0, len(self.search_results)):
+				print (i + 1), self.search_results[i]
 
 	def select_other_result(self, value):
 		self.result = self.search_results[value - 1]
