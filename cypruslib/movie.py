@@ -49,12 +49,10 @@ class Movie:
 			print e
 			sys.exit(3)
 		
-		if self.search_results == []:
-			print "No results. Possible network issue. Please try later"
-			sys.exit(3)
-		self.result = self.search_results[0]
-		self.imdb.update(self.result)
-		self.title = self.result['long imdb canonical title']
+		if not self.search_results == []:
+			self.result = self.search_results[0]
+			self.imdb.update(self.result)
+			self.title = self.result['long imdb canonical title']
 	
 	def get_searchterm(self):
 		return self.splitname[0]

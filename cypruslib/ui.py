@@ -47,6 +47,11 @@ class Main:
 			self.check_movie()
 
 	def check_movie(self):
+		if self.mov.result == None:
+			print 'No movies found in search.'
+			self.manual_search()
+			return
+
 		summary = self.mov.summarize()
 		print summary + '\n'
 		correct = raw_input('Is this movie correct? Y/N: ')
