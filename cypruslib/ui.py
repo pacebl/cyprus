@@ -20,7 +20,7 @@ import copy
 import os
 
 # Number of other results to give if the first found movie is incorrect
-NUM_OTHER_RESULTS = 5 
+NUM_OTHER_RESULTS = 5
 
 """
 Main class which handles user input and sanitization
