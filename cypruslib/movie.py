@@ -49,31 +49,12 @@ class Movie:
             print "Probably no connection to the internet. Full error follows:"
             print e
             sys.exit(3)
-        
-        if not self.results == []:
-            self.result = self.results[0]
-            self.imdb.update(self.result)
-            self.title = self.result['long imdb canonical title']
     
-    def get_searchterm(self):
-        return self.query
-    
-    def get_other_results(self, values):
-        if len(self.results) >= values:
-            for i in range(values):
-                print (i + 1), self.results[i]
-        else:
-            for i in range(0, len(self.results)):
-                print (i + 1), self.results[i]
-
-    def select_other_result(self, value):
-        self.result = self.results[value - 1]
+    def select_result(self, value):
+        self.result = self.results[value]
         self.imdb.update(self.result)
         self.title = self.result['long imdb canonical title']
     
-    def set_query(self, newquery):
-        self.query = newquery
-
     def move_to_library(self):
         path = self.config.get_librarydir() + '/' + self.title
         if not os.path.exists(path):

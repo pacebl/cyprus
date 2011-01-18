@@ -42,8 +42,9 @@ class Main:
         else:
             self.mov = movie.Movie(sys.argv[1])
             print 'Looking up file %s...' % self.argv[1]
-            print 'Search term: ' + self.mov.get_searchterm() + '\n'
+            print 'Search term: ' + self.mov.query + '\n'
             self.mov.lookup()
+            self.mov.select_result(0)
             self.check_movie()
 
     def check_movie(self):
@@ -63,7 +64,13 @@ class Main:
 
     def extended_search(self):
         print '\nPrinting other results: '
-        self.mov.get_other_results(NUM_OTHER_RESULTS)
+        if len(self.mov.results) >= NUM_OTHER_RESULTS:
+            for i in range(0, NUM_OTHER_RESULTS):
+                print i + 1, self.mov.results[i]
+        else:
+            for i in range(0, len(self.mov.results)):
+                print i + 1, self.mov.results[i]
+                
         while True:
             other_movie = raw_input('Correct movie (or N for none): ')
             
@@ -78,13 +85,14 @@ class Main:
 
             if other_movie > 0 and other_movie <= NUM_OTHER_RESULTS:
                 print '\nPicking other movie.'
-                self.mov.select_other_result(other_movie)
+                self.mov.select_result(other_movie - 1)
                 self.check_movie()
                 return
 
     def manual_search(self):
         newquery = raw_input('Please provide new search term: ')
         print 'Searching for new movie %s: \n' % newquery
-        self.mov.set_query(newquery)
+        self.mov.query = newquery
         self.mov.lookup()
+        self.mov.select_result(0)
         self.check_movie()
