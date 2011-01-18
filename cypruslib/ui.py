@@ -47,7 +47,7 @@ class Main:
             self.check_movie()
 
     def check_movie(self):
-        if self.mov.result == None:
+        if self.mov.results == []:
             print 'No movies found in search.'
             self.manual_search()
             return
