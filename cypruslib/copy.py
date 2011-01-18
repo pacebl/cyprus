@@ -19,7 +19,7 @@ import os
 
 class CopyProgress:
     def __init__(self, src, dest, buffersize=1024*1024, **kwargs):
-        self.length = 77
+        self.length = 70
         self.src = src
         self.dest = dest
         self.buffersize = buffersize
