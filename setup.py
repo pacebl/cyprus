@@ -2,7 +2,7 @@
 from distutils.core import setup
 setup(
 	name = 'Cyprus',
-	version = '1.0a1',
+	version = '1.0b1',
 	packages = ['cypruslib'],
 	scripts = ['cyprus'],
 
