@@ -26,65 +26,65 @@ NUM_OTHER_RESULTS = 5
 Main class which handles user input and sanitization
 """
 class Main:
-	def __init__(self):
-		self.argv = sys.argv
-		self.config = config.Config()
-		self.config.check_config()
-		self.mov = None
-	
-	def read_input(self):
-		if len(self.argv) != 2:
-			print 'Only one argument is required:'
-			print '     %s "movie filename"' % self.argv[0]
-			sys.exit(2)
-		elif not os.path.exists(sys.argv[1]):
-			print 'File %s does not exist' % self.argv[1]
-		else:
-			self.mov = movie.Movie(sys.argv[1])
-			print 'Looking up file %s...' % self.argv[1]
-			print 'Search term: ' + self.mov.get_searchterm() + '\n'
-			self.mov.lookup()
-			self.check_movie()
+    def __init__(self):
+        self.argv = sys.argv
+        self.config = config.Config()
+        self.config.check_config()
+        self.mov = None
+    
+    def read_input(self):
+        if len(self.argv) != 2:
+            print 'Only one argument is required:'
+            print '     %s "movie filename"' % self.argv[0]
+            sys.exit(2)
+        elif not os.path.exists(sys.argv[1]):
+            print 'File %s does not exist' % self.argv[1]
+        else:
+            self.mov = movie.Movie(sys.argv[1])
+            print 'Looking up file %s...' % self.argv[1]
+            print 'Search term: ' + self.mov.get_searchterm() + '\n'
+            self.mov.lookup()
+            self.check_movie()
 
-	def check_movie(self):
-		if self.mov.result == None:
-			print 'No movies found in search.'
-			self.manual_search()
-			return
+    def check_movie(self):
+        if self.mov.result == None:
+            print 'No movies found in search.'
+            self.manual_search()
+            return
 
-		summary = self.mov.summarize()
-		print summary + '\n'
-		correct = raw_input('Is this movie correct? Y/N: ')
-		if correct == 'Y' or correct == 'y':
-			print 'Movie is true. Copying to library...'
-			self.mov.move_to_library()
-		else:
-			self.extended_search()
+        summary = self.mov.summarize()
+        print summary + '\n'
+        correct = raw_input('Is this movie correct? Y/N: ')
+        if correct == 'Y' or correct == 'y':
+            print 'Movie is true. Copying to library...'
+            self.mov.move_to_library()
+        else:
+            self.extended_search()
 
-	def extended_search(self):
-		print '\nPrinting other results: '
-		self.mov.get_other_results(NUM_OTHER_RESULTS)
-		while True:
-			other_movie = raw_input('Correct movie (or N for none): ')
-			
-			if other_movie == 'n' or other_movie == 'N':
-				self.manual_search()
-				return
-			try:
-				other_movie = int(other_movie)
-			except ValueError, e:
-				print 'Whoops, that value seems to not be valid.'
-				print e
+    def extended_search(self):
+        print '\nPrinting other results: '
+        self.mov.get_other_results(NUM_OTHER_RESULTS)
+        while True:
+            other_movie = raw_input('Correct movie (or N for none): ')
+            
+            if other_movie == 'n' or other_movie == 'N':
+                self.manual_search()
+                return
+            try:
+                other_movie = int(other_movie)
+            except ValueError, e:
+                print 'Whoops, that value seems to not be valid.'
+                print e
 
-			if other_movie > 0 and other_movie <= NUM_OTHER_RESULTS:
-				print '\nPicking other movie.'
-				self.mov.select_other_result(other_movie)
-				self.check_movie()
-				return
+            if other_movie > 0 and other_movie <= NUM_OTHER_RESULTS:
+                print '\nPicking other movie.'
+                self.mov.select_other_result(other_movie)
+                self.check_movie()
+                return
 
-	def manual_search(self):
-		newquery = raw_input('Please provide new search term: ')
-		print 'Searching for new movie %s: \n' % newquery
-		self.mov.set_query(newquery)
-		self.mov.lookup()
-		self.check_movie()
+    def manual_search(self):
+        newquery = raw_input('Please provide new search term: ')
+        print 'Searching for new movie %s: \n' % newquery
+        self.mov.set_query(newquery)
+        self.mov.lookup()
+        self.check_movie()
