@@ -57,7 +57,7 @@ class Main:
         print summary + '\n'
         correct = raw_input('Is this movie correct? Y/N: ')
         if correct == 'Y' or correct == 'y':
-            print 'Movie is true. Copying to library...'
+            print 'Movie is correct. Copying to library...'
             self.mov.move_to_library()
         else:
             self.extended_search()
