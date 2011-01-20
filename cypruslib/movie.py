@@ -51,12 +51,13 @@ class Movie:
             sys.exit(3)
     
     def select_result(self, value):
-        self.result = self.results[value]
-        self.imdb.update(self.result)
-        self.title = self.result['long imdb canonical title']
-        invalidchars = '\/:*?"<>|'
-        for c in invalidchars:
-            self.title = self.title.replace(c, '')
+        if len(self.results) > value:
+            self.result = self.results[value]
+            self.imdb.update(self.result)
+            self.title = self.result['long imdb canonical title']
+            invalidchars = '\/:*?"<>|'
+            for c in invalidchars:
+                self.title = self.title.replace(c, '')
     
     def move_to_library(self):
         path = self.config.get_librarydir() + '/' + self.title
