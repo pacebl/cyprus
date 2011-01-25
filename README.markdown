@@ -59,3 +59,29 @@ ask for a custom search term if all else fails:
 	5 The Inception
 	Correct movie (or N for none): n
 	Please provide new search term: Some Other Movie! 
+
+Cyprus also supports batch operations. Throw a bunch of movies together in a
+single folder and use shell expansion:
+
+    [sensae@europa][0]$ ./cyprus testmovies/*
+    {'verbose': False}
+	Looking up file testmovies/2001 A Space Odyssey.mkv...
+	2001 A Space Odyssey (1968)
+	Is this mov correct? Y/N: y
+	Movie is correct. Copying to library...
+	[ #################################################################### ] 100% 
+	
+	Looking up file testmovies/Inception.mkv...
+	Inception (2010)
+	Is this mov correct? Y/N: y
+	Movie is correct. Copying to library...
+	[ #################################################################### ] 100% 
+	
+	Looking up file testmovies/The Informant.mkv...
+	Informant!, The (2009)
+	Is this mov correct? Y/N: y
+	Movie is correct. Copying to library...
+	[ #################################################################### ] 100% 
+	
+	[sensae@europa][0]$ 
+	
