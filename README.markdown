@@ -64,7 +64,6 @@ Cyprus also supports batch operations. Throw a bunch of movies together in a
 single folder and use shell expansion:
 
     [sensae@europa][0]$ ./cyprus testmovies/*
-    {'verbose': False}
 	Looking up file testmovies/2001 A Space Odyssey.mkv...
 	2001 A Space Odyssey (1968)
 	Is this mov correct? Y/N: y
