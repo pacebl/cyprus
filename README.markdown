@@ -11,7 +11,7 @@ properly, and even pulls a .tbn thumbnail for use with XBMC.
 
 Here's an example of cyprus in action:
 
-    $ cyprus "Inception.mkv"
+    $ cyprus -v "Inception.mkv"
     Search term: Inception
 
 	Movie
@@ -63,7 +63,7 @@ ask for a custom search term if all else fails:
 Cyprus also supports batch operations. Throw a bunch of movies together in a
 single folder and use shell expansion:
 
-    [sensae@europa][0]$ ./cyprus testmovies/*
+    $ ./cyprus testmovies/*
 	Looking up file testmovies/2001 A Space Odyssey.mkv...
 	2001 A Space Odyssey (1968)
 	Is this mov correct? Y/N: y
@@ -81,6 +81,3 @@ single folder and use shell expansion:
 	Is this mov correct? Y/N: y
 	Movie is correct. Copying to library...
 	[ #################################################################### ] 100% 
-	
-	[sensae@europa][0]$ 
-	
