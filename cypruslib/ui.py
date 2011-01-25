@@ -14,10 +14,11 @@
 # along with Cyprus.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import movie
-import config
 import copy
 import os
+
+import movie
+import config
 
 # Number of other results to give if the first found movie is incorrect
 NUM_OTHER_RESULTS = 5
