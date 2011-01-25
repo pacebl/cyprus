@@ -16,11 +16,12 @@
 import sys
 import copy
 import os
+import optparse
 
 import movie
 import config
 
-# Number of other results to give if the first found movie is incorrect
+# Number of other results to give if the first found mov is incorrect
 NUM_OTHER_RESULTS = 5
 
 """
@@ -28,72 +29,78 @@ Main class which handles user input and sanitization
 """
 class Main:
     def __init__(self):
-        self.argv = sys.argv
         self.config = config.Config()
         self.config.check_config()
-        self.mov = None
+        self.parser = None
+        self.args = None
+        self.options = None
     
     def read_input(self):
-        if len(self.argv) != 2:
-            print 'Only one argument is required:'
-            print '     %s "movie filename"' % self.argv[0]
-            sys.exit(2)
-        elif not os.path.exists(sys.argv[1]):
-            print 'File %s does not exist' % self.argv[1]
-        else:
-            self.mov = movie.Movie(sys.argv[1])
-            print 'Looking up file %s...' % self.argv[1]
-            print 'Search term: ' + self.mov.query + '\n'
-            self.mov.lookup()
-            self.mov.select_result(0)
-            self.check_movie()
-
-    def check_movie(self):
-        if self.mov.results == []:
+        self.parser = optparse.OptionParser()
+        self.parser.add_option('-v', '--verbose', dest='verbose',
+                               action='store_true', default=False,
+                               help='Enable verbose output')
+        (self.options, self.args) = self.parser.parse_args()
+        print self.options
+        for i in range(0, len(self.args)):
+            if not os.path.exists(self.args[i]):
+                print 'File %s does not exist' % self.args[i]
+            else:
+                mov = movie.Movie(self.args[i])
+                print 'Looking up file %s...' % self.args[i]
+                mov.lookup()
+                mov.select_result(0)
+                self.__check_movie(mov)
+                
+    def __check_movie(self, mov):
+        if mov.results == []:
             print 'No movies found in search.'
-            self.manual_search()
+            self.__manual_search(mov)
             return
 
-        summary = self.mov.summarize()
-        print summary + '\n'
+        if self.options.verbose == True:
+            summary = mov.summarize()
+            print summary + '\n'
+        else:
+            print mov.title
         correct = raw_input('Is this movie correct? Y/N: ')
         if correct == 'Y' or correct == 'y':
             print 'Movie is correct. Copying to library...'
-            self.mov.move_to_library()
+            mov.move_to_library()
         else:
-            self.extended_search()
+            self.__extended_search(mov)
 
-    def extended_search(self):
+    def __extended_search(self, mov):
         print '\nPrinting other results: '
-        if len(self.mov.results) >= NUM_OTHER_RESULTS:
+        if len(mov.results) >= NUM_OTHER_RESULTS:
             for i in range(0, NUM_OTHER_RESULTS):
-                print i + 1, self.mov.results[i]
+                print i + 1, mov.results[i]
         else:
-            for i in range(0, len(self.mov.results)):
-                print i + 1, self.mov.results[i]
+            for i in range(0, len(mov.results)):
+                print i + 1, mov.results[i]
                 
         while True:
-            other_movie = raw_input('Correct movie (or N for none): ')
+            other_mov = raw_input('Correct mov (or N for none): ')
             
-            if other_movie == 'n' or other_movie == 'N':
-                self.manual_search()
+            if other_mov == 'n' or other_mov == 'N':
+                self.__manual_search(mov)
                 return
             try:
-                other_movie = int(other_movie)
+                other_mov = int(other_mov)
             except ValueError, e:
                 print 'Whoops, that value seems to not be valid.'
                 print e
 
-            if other_movie > 0 and other_movie <= NUM_OTHER_RESULTS:
-                print '\nPicking other movie.'
-                self.mov.select_result(other_movie - 1)
-                self.check_movie()
+            if other_mov > 0 and other_mov <= NUM_OTHER_RESULTS:
+                print '\nPicking other mov.'
+                mov.select_result(other_mov - 1)
+                self.__check_movie(mov)
                 return
 
-    def manual_search(self):
+    def __manual_search(self, mov):
         newquery = raw_input('Please provide new search term: ')
-        print 'Searching for new movie %s: \n' % newquery
-        self.mov.query = newquery
-        self.mov.lookup()
-        self.mov.select_result(0)
-        self.check_movie()
+        print 'Searching for new mov %s: \n' % newquery
+        mov.query = newquery
+        mov.lookup()
+        mov.select_result(0)
+        self.__check_movie(mov)
