@@ -17,7 +17,7 @@ import os
 import sys
 import config
 import urllib
-import copy
+import customcopy
 
 try:
     import imdb
