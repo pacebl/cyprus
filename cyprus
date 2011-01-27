@@ -43,7 +43,6 @@ class Main:
                                action='store_true', default=False,
                                help='Enable verbose output')
         (self.options, self.args) = self.parser.parse_args()
-        print self.options
         for i in range(0, len(self.args)):
             if not os.path.exists(self.args[i]):
                 print 'File %s does not exist' % self.args[i]
