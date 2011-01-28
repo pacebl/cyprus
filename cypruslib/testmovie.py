@@ -26,5 +26,10 @@ class TestMovie(unittest.TestCase):
         self.mov.select_result(0)
         self.assertEqual("Inception (2010)", self.mov.title)
 
+    def test_select_result(self):
+        length = len(self.mov.results)
+        self.assertTrue(self.mov.select_result(length))
+        self.assertFalse(self.mov.select_result(length + 1))
+
 if __name__ == '__main__':
     unittest.main()

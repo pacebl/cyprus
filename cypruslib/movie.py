@@ -58,6 +58,9 @@ class Movie:
             invalidchars = '\/:*?"<>|'
             for c in invalidchars:
                 self.title = self.title.replace(c, '')
+            return True
+        else:
+            return False
     
     def move_to_library(self):
         path = self.config.get_librarydir() + '/' + self.title
