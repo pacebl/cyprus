@@ -68,16 +68,11 @@ class Movie:
             os.makedirs(path)
         filename = path + '/' + self.title + '.' + self.ext
 
-        copier = copy.CopyProgress(self.fullpath, filename, mode='fixed')
+        copier = customcopy.CopyProgress(self.fullpath, filename, mode='fixed')
         copier.copy()
 
         coverurl = self.result['full-size cover url']
         urllib.urlretrieve(coverurl, path + '/' + self.title + '.tbn')
     
-    def print_metadata(self):
-        print "Title: ", self.title
-        print "Filetype: ", self.ext
-        print self.config.get_librarydir()
-
     def summarize(self):
         return self.result.summary()
