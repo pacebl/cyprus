@@ -17,7 +17,7 @@ import unittest
 
 import movie
 
-class TestMovie(unittest.TestCase):
+class MovieTest(unittest.TestCase):
     def setUp(self):
         self.mov = movie.Movie("Inception.mkv")
 
