@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 # This file is part of Cyprus.
 #
@@ -75,7 +75,7 @@ class Main:
         print '\nPrinting other results: '
         if len(mov.results) >= NUM_OTHER_RESULTS:
             for i in range(0, NUM_OTHER_RESULTS):
-                print i + 1, mov.results[i]
+                print i + 1, mov.results[i]['long imdb canonical title']
         else:
             for i in range(0, len(mov.results)):
                 print i + 1, mov.results[i]
