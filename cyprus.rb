@@ -1,3 +1,17 @@
 #!/usr/bin/env ruby
 
-puts "Welcome to Cyprus"
+require 'imdb_party'
+
+class Cyprus
+  def initialize(movie)
+    puts "Welcome to Cyprus"
+    @movie = movie
+  end
+
+  def lookup()
+    puts "Looking up #{@movie}"
+  end
+end
+
+cp = Cyprus.new "Inception"
+cp.lookup
